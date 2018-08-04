@@ -10,7 +10,7 @@ def Enc(plain, key):
     cipher = ""
 
     for p in plain:
-        offset = (-32) - key
+        offset = (-32) + key
         p_sign = ord(p)
         c_sign = p_sign + offset
 
@@ -27,7 +27,7 @@ def Dec(cipher, key):
     plain = ""
 
     for c in cipher:
-        offset = 32 + key
+        offset = 32 - key
         c_sign = ord(c)
         p_sign = c_sign + offset
 
@@ -40,7 +40,7 @@ def Dec(cipher, key):
     return plain
 
 def Attack(msg):
-    for key in range(25):
+    for key in range(26):
         print("[key {}] {}".format(key, Dec(msg, key)))
     return
 
