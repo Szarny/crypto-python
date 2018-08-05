@@ -1,5 +1,4 @@
 import base64
-import pyperclip
 
 # 鍵生成アルゴリズム
 def KeyGen():
