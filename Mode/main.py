@@ -23,6 +23,15 @@ def ivGen():
     return int(iv)
 
 
+def ctrGen():
+    ctr = "-1"
+
+    while not ctr.isdigit() and not 0 <= int(ctr) <= 65535:
+        ctr = input("[?] CTR(0-65535) : ")
+
+    return int(ctr)
+
+
 def Enc(plain, key, mode):
     if mode == "ECB":
         Enc_ECB(plain, key)
@@ -40,7 +49,8 @@ def Enc(plain, key, mode):
         Enc_OFB(plain, key, iv)
 
     elif mode == "CTR":
-        Enc_CTR(plain, key)
+        ctr = ctrGen()
+        Enc_CTR(plain, key, ctr)
 
     else:
         return "[!] Invalid mode"
