@@ -1,5 +1,9 @@
-from ECB import Enc_ECB, Dec_ECB
-from CBC import Enc_CBC, Dec_CBC
+from ECB.ECB import Enc_ECB, Dec_ECB
+from CBC.CBC import Enc_CBC, Dec_CBC
+from CFB.CFB import Enc_CFB, Dec_CFB
+from OFB.OFB import Enc_OFB, Dec_OFB
+from CTR.CTR import Enc_CTR, Dec_CTR
+
 
 def KeyGen():
     key = ""
@@ -8,6 +12,7 @@ def KeyGen():
         key = input("[?] Key(int) : ")
 
     return int(key)
+
 
 def ivGen():
     iv = "-1"
@@ -60,6 +65,7 @@ def Dec(key, mode):
     else:
         return "[*] Invalid mode"
 
+
 def main():
     while True:
         mode = input("[?] [E]nc [D]ec e[X]it : ")
@@ -79,7 +85,6 @@ def main():
 
             key = KeyGen()
 
-            print()
             print(Enc(msg, key, enc_mode))
 
         elif mode == "D":
@@ -88,9 +93,9 @@ def main():
 
             key = KeyGen()
 
-            print()
             print(Dec(key, enc_mode))
 
         print()
+
 
 main()
