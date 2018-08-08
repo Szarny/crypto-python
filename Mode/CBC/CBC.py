@@ -9,10 +9,10 @@ def SubKeyGen(master_key, n_round=16):
 def Enc_CBC(plain, key, iv):
     cipher = bytearray([iv // 256, iv % 256])
 
-    for i in range(2, len(plain) + 2, 2):
-        c = ord(plain[i - 2]) * 256 + ord(plain[i - 1])
+    for i in range(0, len(plain), 2):
+        c = ord(plain[i]) * 256 + ord(plain[i + 1])
 
-        c = c ^ int.from_bytes(cipher[i - 2:i], "big")
+        c = c ^ int.from_bytes(cipher[i:i + 2], "big")
 
         for sub_key in SubKeyGen(key):
             c = c ^ sub_key
