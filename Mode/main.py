@@ -1,4 +1,5 @@
 from ECB import Enc_ECB, Dec_ECB
+from CBC import Enc_CBC, Dec_CBC
 
 def KeyGen():
     key = ""
@@ -8,17 +9,32 @@ def KeyGen():
 
     return int(key)
 
+def ivGen():
+    iv = "-1"
+
+    while not iv.isdigit() and not 0 <= int(iv) <= 65535:
+        iv = input("[?] IV(0-65535) : ")
+
+    return int(iv)
+
+
 def Enc(plain, key, mode):
     if mode == "ECB":
         Enc_ECB(plain, key)
+
     elif mode == "CBC":
-        Enc_CBC(plain, key)
+        iv = ivGen()
+        Enc_CBC(plain, key, iv)
+
     elif mode == "CFB":
         Enc_CFB(plain, key)
+
     elif mode == "OFB":
         Enc_OFB(plain, key)
+
     elif mode == "CTR":
         Enc_CTR(plain, key)
+
     else:
         return "[!] Invalid mode"
 
@@ -28,14 +44,19 @@ def Enc(plain, key, mode):
 def Dec(key, mode):
     if mode == "ECB":
         return Dec_ECB(key)
+
     elif mode == "CBC":
         return Dec_CBC(key)
+
     elif mode == "CFB":
         return Dec_CFB(key)
+
     elif mode == "OFB":
         return Dec_OFB(key)
+
     elif mode == "CTR":
         return Dec_CTR(key)
+
     else:
         return "[*] Invalid mode"
 
@@ -60,6 +81,7 @@ def main():
 
             print()
             print(Enc(msg, key, enc_mode))
+
         elif mode == "D":
             while enc_mode not in ["ECB", "CBC", "CFB", "OFB", "CTR"]:
                 enc_mode = input("[?] Mode (ECB/CBC/CFB/OFB/CTR) : ")
