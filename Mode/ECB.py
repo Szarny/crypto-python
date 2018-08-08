@@ -1,9 +1,10 @@
-def SubKeyGen(master_key, n_round):
+def SubKeyGen(master_key, n_round=16):
     sub_key = master_key
 
     for i in range(n_round):
         sub_key = (sub_key * 2 + 1) % 65535
         yield sub_key
+
 
 def Enc_ECB(plain, key):
     cipher = bytearray([])
@@ -11,16 +12,15 @@ def Enc_ECB(plain, key):
     for i in range(0, len(plain), 2):
         c = ord(plain[i]) * 256 + ord(plain[i + 1])
 
-        for sub_key in SubKeyGen(key, 16):
+        for sub_key in SubKeyGen(key):
             c = c ^ sub_key
 
         cipher.append(c // 256)
         cipher.append(c % 256)
-    
-    print(cipher)
 
     with open("cipher.enc", "wb") as fout:
         fout.write(cipher)
+
 
 def Dec_ECB(key):
     plain = ""
@@ -31,12 +31,11 @@ def Dec_ECB(key):
         for i in range(0, len(cipher), 2):
             c = int.from_bytes(cipher[i:i + 2], "big")
             p = c
-            
-            for sub_key in SubKeyGen(key, 16):
+
+            for sub_key in SubKeyGen(key):
                 p ^= sub_key
 
             plain += chr(p // 256)
             plain += chr(p % 256)
-        
+
     return "[*] plaintext is \"{}\"".format(plain)
-    
