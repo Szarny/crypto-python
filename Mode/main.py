@@ -4,7 +4,7 @@ def KeyGen():
     key = ""
 
     while not key.isdigit():
-        key = input("Key(int) : ")
+        key = input("[?] Key(int) : ")
 
     return int(key)
 
@@ -20,39 +20,54 @@ def Enc(plain, key, mode):
     elif mode == "CTR":
         Enc_CTR(plain, key)
     else:
-        return "[*] Invalid mode"
+        return "[!] Invalid mode"
 
     return "[*] Cipher is stored at cipher.enc"
 
 
 def Dec(key, mode):
     if mode == "ECB":
-        print(Dec_ECB(key))
+        return Dec_ECB(key)
     elif mode == "CBC":
-        print(Dnc_CBC(key))
+        return Dec_CBC(key)
     elif mode == "CFB":
-        print(Dnc_CFB(key))
+        return Dec_CFB(key)
     elif mode == "OFB":
-        print(Dnc_OFB(key))
+        return Dec_OFB(key)
     elif mode == "CTR":
-        print(Dnc_CTR(key))
+        return Dec_CTR(key)
     else:
         return "[*] Invalid mode"
 
 def main():
     while True:
-        mode = input("[E]nc [D]ec e[X]it : ")
+        mode = input("[?] [E]nc [D]ec e[X]it : ")
+
+        msg = ""
+        enc_mode = ""
 
         if mode == "X":
             return
 
         if mode == "E":
-            msg = input("Message : ")
-            mode = input("Mode (ECB/CBC/CFB/OFB/CTR) : ")
-            print(Enc(msg, KeyGen(), mode))
+            while len(msg) == 0 or len(msg) % 2 != 0:
+                msg = input("[?] Message(2x) : ")
+
+            while enc_mode not in ["ECB", "CBC", "CFB", "OFB", "CTR"]:
+                enc_mode = input("[?] Mode (ECB/CBC/CFB/OFB/CTR) : ")
+
+            key = KeyGen()
+
+            print()
+            print(Enc(msg, key, enc_mode))
         elif mode == "D":
-            mode = input("Mode (ECB/CBC/CFB/OFB/CTR) : ")
-            print(Dec(KeyGen(), mode))
+            while enc_mode not in ["ECB", "CBC", "CFB", "OFB", "CTR"]:
+                enc_mode = input("[?] Mode (ECB/CBC/CFB/OFB/CTR) : ")
+
+            key = KeyGen()
+
+            print()
+            print(Dec(key, enc_mode))
 
         print()
 
