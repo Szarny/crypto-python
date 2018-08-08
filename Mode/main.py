@@ -32,7 +32,8 @@ def Enc(plain, key, mode):
         Enc_CBC(plain, key, iv)
 
     elif mode == "CFB":
-        Enc_CFB(plain, key)
+        iv = ivGen()
+        Enc_CFB(plain, key, iv)
 
     elif mode == "OFB":
         Enc_OFB(plain, key)
