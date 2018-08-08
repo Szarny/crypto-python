@@ -69,7 +69,7 @@ def choose_d(m, n):
 
     return u
 
-def RSAGen():
+def RSAGen(limit):
     """
     公開鍵pkと秘密鍵skを生成する
 
@@ -93,8 +93,8 @@ def RSAGen():
     pk = ""
     sk = ""
 
-    p = choose_random_prime(100)
-    q = choose_random_prime(100)
+    p = choose_random_prime(limit)
+    q = choose_random_prime(limit)
     N = p * q
 
     print("*** parameters ***")
@@ -140,7 +140,7 @@ def main():
         if mode == "y":
             return
 
-        pk, sk = RSAGen()
+        pk, sk = RSAGen(int(input("[Limit of p and q] >> ")))
 
         msg = -1
         while not (0 <= msg < pk["N"]):
